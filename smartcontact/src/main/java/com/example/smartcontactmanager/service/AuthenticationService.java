@@ -1,5 +1,7 @@
 package com.example.smartcontactmanager.service;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,13 @@ public class AuthenticationService {
 
     public Boolean checkCredentials(String username, String password) {
         //username="great@123";
-        User users = user.getUserByUserName(username);
+        User users=null;
+        try{
+        users = user.getUserByUserName(username);
+        }
+        catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }
         
         System.out.println(users.getPassword());
         return users.getPassword().equals(password);

@@ -1,31 +1,26 @@
 package com.example.smartcontactmanager.entities;
 
-import java.util.Date;
+// import java.util.Date;
 
-import jakarta.persistence.*;
+// import jakarta.persistence.*;
 
-@Entity
-@Table(name = "Course")
+// @Entity
+// @Table(name = "Course")
 public class Course {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CourseID")
+    // @Id
+    // @Column(name = "CourseID")
     private Long courseID;
 
-    @Column(name = "Course_Name")
+    // @Column(name = "Course_Name")
     private String courseName;
 
-    @Column(name = "Description")
+    // @Column(name = "Description")
     private String description;
 
-    @Column(name = "Start_Date")
-    private Date startDate;
-
-    @Column(name = "End_Date")
-    private Date endDate;
-
-    public Course() {
-        super();
+    public Course(Long courseID, String courseName, String description) {
+        this.courseID = courseID;
+        this.courseName = courseName;
+        this.description = description;
     }
 
     public Long getCourseID() {
@@ -52,26 +47,10 @@ public class Course {
         this.description = description;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
     @Override
     public String toString() {
         return "Course [courseID=" + courseID + ", courseName=" + courseName + ", description=" + description
-                + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+                + "]";
     }
 
     // Getters and setters

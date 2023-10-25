@@ -41,9 +41,10 @@ public class AuthenticationController {
         // }
         System.out.println(credentials);
         String username = credentials.getEmail();
-        System.out.println(username);
+        
         String password = credentials.getPassword();
-        String errorMessage = null;
+        System.out.println(password);
+        String message = null;
 
         try {
             if (authenticationService.checkCredentials(username, password)) {
@@ -51,15 +52,16 @@ public class AuthenticationController {
                 System.out.println("Successfully logged in");
                 // toastService.redirectWithSuccessToast(redirectAttributes, "Successfully logged in.");
                 model.addAttribute("credentials", credentials);
-                return "index";
+                return "redirect:/";
             }
-            errorMessage = "Incorrect password.";
+            message = "Incorrect password";
         } catch (Exception e) {
-            errorMessage = "No user with this username found.";
+            message = "No user with this username found.";
             System.out.println("Incorrect");
         }
 
         model.addAttribute("credentials", credentials);
+        model.addAttribute("message", message);
         // toastService.displayErrorToast(model, errorMessage);
         return "login";
     }

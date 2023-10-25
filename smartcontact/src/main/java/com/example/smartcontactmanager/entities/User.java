@@ -1,25 +1,36 @@
 package com.example.smartcontactmanager.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+// import jakarta.validation.constraints.NotBlank;
 
-import java.util.*;
+// import java.util.*;
 
-@Entity
-@Table(name = "USER")
+// @Entity
+// @Table(name = "USER")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String FirstName;
     private String LastName;
-    @Column(unique = true)
-    @NotBlank(message = "Email field is required!!")
+    // @Column(unique = true)
+    // @NotBlank(message = "Email field is required!!")
     private String email;
     private String password;
     private String role;
+    private Long score;
     
+    public Long getScore() {
+        return score;
+    }
+
+
+    public void setScore(Long score) {
+        this.score = score;
+    }
+
+
     public String getRole() {
         return role;
     }
@@ -43,8 +54,8 @@ public class User {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId() {
+        this.id=(int)(Math.random()*10000);
     }
 
     public String getContact(){
