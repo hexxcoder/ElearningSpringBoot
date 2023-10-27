@@ -1,21 +1,10 @@
 package com.example.smartcontactmanager.entities;
 
-import jakarta.persistence.*;
-// import jakarta.validation.constraints.NotBlank;
-
-// import java.util.*;
-
-// @Entity
-// @Table(name = "USER")
 public class User {
-
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String FirstName;
     private String LastName;
-    // @Column(unique = true)
-    // @NotBlank(message = "Email field is required!!")
+
     private String email;
     private String password;
     private String role;
@@ -40,11 +29,8 @@ public class User {
         this.role = role;
     }
 
-    @Column(length = 500)
     private String contact;
 
-    // @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    // private List<Contact> contacts=new ArrayList<>();
     public User() {
         super();
     }
@@ -98,30 +84,6 @@ public class User {
         this.password = password;
     }
 
-    // public String getRole() {
-    //     return role;
-    // }
-
-    // public void setRole(String role) {
-    //     this.role = role;
-    // }
-
-    // public boolean isEnabled() {
-    //     return enabled;
-    // }
-
-    // public void setEnabled(boolean enabled) {
-    //     this.enabled = enabled;
-    // }
-
-    // public List<Contact> getContacts() {
-    //     return contacts;
-    // }
-
-    // public void setContacts(List<Contact> contacts) {
-    //     this.contacts = contacts;
-    // }
-
     
 public String toString() {
     return "User{" +
@@ -131,6 +93,7 @@ public String toString() {
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
             ", contact='" + contact + '\'' +
+            ", role=" + role + '\'' +
             '}';
 }
 

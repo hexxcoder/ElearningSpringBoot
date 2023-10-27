@@ -1,7 +1,7 @@
 package com.example.smartcontactmanager.helper;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+// import jakarta.persistence.Entity;
+// import jakarta.persistence.Table;
 
 public class Search {
 

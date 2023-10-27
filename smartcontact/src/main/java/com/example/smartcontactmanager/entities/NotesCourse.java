@@ -1,19 +1,11 @@
 package com.example.smartcontactmanager.entities;
 
-// import jakarta.persistence.*;
-// import java.util.Date;
-
-// @Entity
-// @Table(name = "NotesCourse")
 public class NotesCourse {
-    //@Id
-    //@Column(name = "NoteID")
+
     private Long noteID;
 
-    //@Column(name = "Title")
     private String title;
 
-    //@Column(name = "CourseID")
     private Long courseId;
 
     public Long getNoteID() {
@@ -40,5 +32,4 @@ public class NotesCourse {
         this.courseId = courseId;
     }
 
-    // Getters and setters
 }

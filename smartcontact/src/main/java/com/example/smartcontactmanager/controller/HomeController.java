@@ -2,7 +2,8 @@ package com.example.smartcontactmanager.controller;
 import com.example.smartcontactmanager.dao.UserRepository;
 import com.example.smartcontactmanager.entities.Course;
 import com.example.smartcontactmanager.entities.User;
-
+import com.example.smartcontactmanager.helper.AddCourse;
+import com.example.smartcontactmanager.helper.Contact;
 import com.example.smartcontactmanager.helper.KeyValuePair;
 import com.example.smartcontactmanager.helper.Search;
 import com.example.smartcontactmanager.helper.message;
@@ -66,8 +67,12 @@ public class HomeController {
         List<Map<String,String>> m=new ArrayList<>();
         List<KeyValuePair> ll=new ArrayList<>();
         List<KeyValuePair> mm=new ArrayList<>();    
+        String admin=null;
         try{
-            if(username!=null) credentials=userRepository.getUserByUserName(username);
+            if(username!=null) {
+                credentials=userRepository.getUserByUserName(username);
+                if(this.userRepository.findRole(username).equals("ROLE_ADMIN")) admin="yes";
+            }
             l = this.userRepository.getUnenrolledCourse(username,"");
             m = this.userRepository.getEnrolledCourse(username);
         }
@@ -99,6 +104,7 @@ public class HomeController {
         model.addAttribute("credentials", credentials);
         model.addAttribute("l", ll);
         model.addAttribute("m", mm);
+        model.addAttribute("admin", admin);
         return "index";
     }
 
@@ -143,9 +149,11 @@ public class HomeController {
         List<Map<String,String>> l=new ArrayList<>();
         List<Map<String,String>> m=new ArrayList<>();
         List<KeyValuePair> ll=new ArrayList<>();
-        List<KeyValuePair> mm=new ArrayList<>();    
+        List<KeyValuePair> mm=new ArrayList<>();
+        String admin=null;
         try{
             if(username!=null) credentials=userRepository.getUserByUserName(username);
+            if(this.userRepository.findRole(username).equals("ROLE_ADMIN")) admin="yes";
             l = this.userRepository.getUnenrolledCourse(username,s);
             m = this.userRepository.getEnrolledCourse(username);
         }
@@ -177,6 +185,7 @@ public class HomeController {
         model.addAttribute("credentials", credentials);
         model.addAttribute("l", ll);
         model.addAttribute("m", mm);
+        model.addAttribute("admin", admin);
         
         return "course";
     }
@@ -190,8 +199,14 @@ public class HomeController {
         List<Map<String,String>> m=new ArrayList<>();
         List<KeyValuePair> ll=new ArrayList<>();
         List<KeyValuePair> mm=new ArrayList<>();    
+        String admin=null;
         try{
-            if(username!=null) credentials=userRepository.getUserByUserName(username);
+            if(username!=null) {
+                credentials=userRepository.getUserByUserName(username);
+                // System.out.println(this.userRepository.findRole(username));
+                if(this.userRepository.findRole(username).equals("ROLE_ADMIN")) admin="yes";
+
+            }
             l = this.userRepository.getUnenrolledCourse(username,"");
             m = this.userRepository.getEnrolledCourse(username);
         }
@@ -226,6 +241,7 @@ public class HomeController {
         model.addAttribute("l", ll);
         model.addAttribute("m", mm);
         model.addAttribute("message", enrollerror);
+        model.addAttribute("admin", admin);
         enrollerror=null;
         return "course";
     }
@@ -375,9 +391,13 @@ public class HomeController {
         
         List<Map<String,String>> m=new ArrayList<>();
         
-        List<KeyValuePair> mm=new ArrayList<>();    
+        List<KeyValuePair> mm=new ArrayList<>(); 
+        String admin=null;   
         try{
-            if(username!=null) credentials=userRepository.getUserByUserName(username);
+            if(username!=null) {
+                credentials=userRepository.getUserByUserName(username);
+                if(this.userRepository.findRole(username).equals("ROLE_ADMIN")) admin="yes";
+            }
             
             m = this.userRepository.getEnrolledCourse(username);
         }
@@ -396,6 +416,7 @@ public class HomeController {
 
         model.addAttribute("credentials", credentials);
         model.addAttribute("m", mm);
+        model.addAttribute("admin", admin);
         return "teacher";
     }
 
@@ -414,6 +435,28 @@ public class HomeController {
 
         
         return "redirect:/";
+    }
+
+    @PostMapping("/contact")
+    public String message(@ModelAttribute("user") User credentials, @ModelAttribute("contact") Contact contact, Model model, HttpSession session) throws ClassNotFoundException, SQLException{
+        
+        String name=contact.getName();
+        String email=contact.getEmail();
+        String sub=contact.getSubject();
+        String det=contact.getDetail();
+        Long id=(long)(Math.random()*10000);
+        // System.out.println("Name: "+name);
+        Contact con=new Contact(id,name,email,sub,det);
+        
+        try{
+        this.userRepository.addcontact(con);
+
+        }
+        catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }
+
+        return "redirect:/contact";
     }
 }
 

@@ -1,20 +1,26 @@
 package com.example.smartcontactmanager.entities;
 
-// import jakarta.persistence.*;
-// import java.util.Date;
-
-// @Entity
-// @Table(name = "AssCourse")
 public class AssCourse {
-    // @Id
-    // @Column(name = "id")
+
     private Long id;
 
-    // @Column(name = "AssignmentName")
     private String assName;
 
-    // @Column(name = "CourseID")
     private Long courseid;
+
+    private Long score;
+
+    public Long getScore() {
+        return score;
+    }
+
+
+
+    public void setScore(Long score) {
+        this.score = score;
+    }
+
+
 
     public Long getId() {
         return id;

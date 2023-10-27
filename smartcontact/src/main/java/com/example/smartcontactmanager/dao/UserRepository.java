@@ -2,6 +2,9 @@ package com.example.smartcontactmanager.dao;
 
 import com.example.smartcontactmanager.entities.Course;
 import com.example.smartcontactmanager.entities.User;
+import com.example.smartcontactmanager.helper.AddAss;
+import com.example.smartcontactmanager.helper.AddNote;
+import com.example.smartcontactmanager.helper.Contact;
 import com.example.smartcontactmanager.helper.KeyValuePair;
 import com.example.smartcontactmanager.helper.three;
 
@@ -13,8 +16,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+
 import org.springframework.data.repository.query.Param;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -370,7 +372,7 @@ public class UserRepository{
         Connection con=DriverManager.getConnection(url, username, password);
 
         
-        String sql = "select score from assignment where id = ?";
+        String sql = "select score from ass_course where id = ?";
 
         PreparedStatement pstmt=con.prepareStatement(sql);
         
@@ -485,6 +487,181 @@ public class UserRepository{
         pstmt.setString( 3, course.getDescription());
   
 
+        pstmt.executeUpdate();
+
+        con.close();
+        System.out.println("inserted successfully");
+    }
+
+    public void removecourse(Long id) throws ClassNotFoundException, SQLException{
+
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        // System.out.println("Inside update");
+        Connection con=DriverManager.getConnection(url, username, password);
+
+        
+        String sql = "delete from course where courseid=?";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        
+        pstmt.setLong(1,id);
+  
+
+        pstmt.executeUpdate();
+
+        con.close();
+        System.out.println("inserted successfully");
+    }
+
+    public void removeassignment(Long id) throws ClassNotFoundException, SQLException{
+
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        // System.out.println("Inside update");
+        Connection con=DriverManager.getConnection(url, username, password);
+
+        
+        String sql = "delete from ass_course where id=?";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        
+        pstmt.setLong(1,id);
+  
+
+        pstmt.executeUpdate();
+
+        con.close();
+        System.out.println("inserted successfully");
+    }
+
+    public void removenote(Long id) throws ClassNotFoundException, SQLException{
+
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        // System.out.println("Inside update");
+        Connection con=DriverManager.getConnection(url, username, password);
+
+        
+        String sql = "delete from notes_course where noteid=?";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        
+        pstmt.setLong(1,id);
+  
+
+        pstmt.executeUpdate();
+
+        con.close();
+        System.out.println("inserted successfully");
+    }
+
+    public void addassignment(AddAss addAss) throws ClassNotFoundException, SQLException{
+
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        // System.out.println("Inside update");
+        Connection con=DriverManager.getConnection(url, username, password);
+
+
+        String sql = "INSERT INTO ass_course(id, assignment_name, courseid, score) " +
+                "VALUES (?,?,?,?)";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);   
+
+        pstmt.setLong(1,addAss.getId());
+        pstmt.setString( 2, addAss.getName());
+        pstmt.setLong(3, addAss.getCid());
+        pstmt.setLong(4, addAss.getScore());
+        
+        pstmt.executeUpdate();
+
+        con.close();
+        System.out.println("inserted successfully");
+    }
+
+    public void addnote(AddNote addNote) throws ClassNotFoundException, SQLException{
+
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+
+        // System.out.println("Inside update");
+        Connection con=DriverManager.getConnection(url, username, password);
+
+        
+        String sql = "INSERT INTO notes_course(noteid, courseid, title) " +
+                "VALUES (?,?,?)";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        
+        pstmt.setLong(1,addNote.getId());
+        pstmt.setLong( 2, addNote.getCid());
+        pstmt.setString(3, addNote.getName());
+        
+        pstmt.executeUpdate();
+
+        con.close();
+        System.out.println("inserted successfully");
+    }
+    
+    public String findRole(String email) throws ClassNotFoundException, SQLException{
+
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        // System.out.println("Inside update");
+        // Connection con=DriverManager.getConnection(url, username, password);
+
+        User user=null;
+        String role="";
+        try (Connection con = DriverManager.getConnection(url, username, password)) {
+        String sql = "SELECT role FROM user WHERE email = ?";
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        pstmt.setString(1, email);
+        
+        
+        ResultSet resultSet = pstmt.executeQuery();
+        if (resultSet.next()) {
+            role=resultSet.getString("role");
+        }
+    }
+
+    return role;
+    }
+
+    public void addcontact(Contact contact) throws ClassNotFoundException, SQLException{
+
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+
+        // System.out.println("Inside update");
+        Connection con=DriverManager.getConnection(url, username, password);
+
+        
+        String sql = "INSERT INTO contact(id, name, email, subject, detail) " +
+                "VALUES (?,?,?,?,?)";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        
+        pstmt.setLong(1,contact.getId());
+        pstmt.setString( 2, contact.getName());
+        pstmt.setString(3, contact.getEmail());
+        pstmt.setString(4, contact.getSubject());
+        pstmt.setString(5, contact.getDetail());
+        
         pstmt.executeUpdate();
 
         con.close();

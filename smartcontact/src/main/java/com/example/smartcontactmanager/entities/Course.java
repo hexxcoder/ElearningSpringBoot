@@ -1,20 +1,11 @@
 package com.example.smartcontactmanager.entities;
 
-// import java.util.Date;
-
-// import jakarta.persistence.*;
-
-// @Entity
-// @Table(name = "Course")
 public class Course {
-    // @Id
-    // @Column(name = "CourseID")
+
     private Long courseID;
 
-    // @Column(name = "Course_Name")
     private String courseName;
 
-    // @Column(name = "Description")
     private String description;
 
     public Course(Long courseID, String courseName, String description) {
@@ -52,6 +43,4 @@ public class Course {
         return "Course [courseID=" + courseID + ", courseName=" + courseName + ", description=" + description
                 + "]";
     }
-
-    // Getters and setters
 }

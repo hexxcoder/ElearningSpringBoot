@@ -10005,7 +10005,7 @@ h6,
         <div class="row align-items-center py-4 px-xl-5">
             <div class="col-lg-3">
                 <a href="" class="text-decoration-none">
-                    <h1 class="m-0"><span class="text-primary">E</span>COURSES</h1>
+                  <h1 class="m-0"><span class="text-primary">L</span>earnScape</h1>
                 </a>
             </div>
             <div class="col-lg-3 text-right">
@@ -10073,15 +10073,24 @@ h6,
     </div>
     <!-- Navbar End -->
     
+    <div th:if="${sm!=null}" class="alert alert-success alert-dismissible text-center">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong th:text="${sm}"></strong>
+    </div>
 
-    <div th:if="${sm!=null}" class="alert alert-success" role="alert" th:text="${sm}"></div>
-      <div th:if="${fm!=null}" class="alert alert-danger" role="alert" th:text="${fm}"></div>
+    <div th:if="${sm!=null}" class="alert alert-danger alert-dismissible text-center">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong th:text="${fm}"></strong>
+    </div>
+
+    <!--<div th:if="${sm!=null}" class="alert alert-success" role="alert" th:text="${sm}"></div>
+    <div th:if="${fm!=null}" class="alert alert-danger" role="alert" th:text="${fm}"></div>-->
     
 
     <form style="width: 60%; margin: 20px auto;" th:object="${newcourse}" method="post" th:action="@{/admin/addcourse}">
       <div class="form-group">
         <label for="inputAddress3">Id</label>
-        <input type="text" class="form-control" name="id" id="id" placeholder="Enter course id" default="">
+        <input type="text" class="form-control" name="id" id="id" placeholder="Enter course id" required="required">
     </div>
         <div class="form-group">
             <label for="inputAddress">Course name</label>
@@ -10095,7 +10104,14 @@ h6,
     </form>
     
     
-
+    <form style="width: 60%; margin: 20px auto;" th:object="${addcourse}" method="post" th:action="@{/admin/removecourse}">
+      <div class="form-group">
+        <label for="inputAddress3">Id</label>
+        <input type="text" class="form-control" name="id" id="id" placeholder="Enter course id" required="required">
+    </div>
+      
+        <button type="submit" class="btn btn-primary">Drop Course</button>
+    </form>
 
     
 
