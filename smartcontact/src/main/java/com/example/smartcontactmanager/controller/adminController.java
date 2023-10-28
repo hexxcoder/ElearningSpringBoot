@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,6 +24,7 @@ import com.example.smartcontactmanager.helper.DropAss;
 import com.example.smartcontactmanager.helper.DropNote;
 import com.example.smartcontactmanager.helper.KeyValuePair;
 import com.example.smartcontactmanager.helper.Search;
+import com.example.smartcontactmanager.helper.three;
 import com.example.smartcontactmanager.service.AuthenticationService;
 
 import jakarta.servlet.http.HttpSession;
@@ -298,4 +300,60 @@ public class adminController {
 
         // return "redirect:/admin/assignment";
     }
+
+@GetMapping("/contact")
+   public String admincontat(@ModelAttribute("user") User credentials, Model model, HttpSession session) throws ClassNotFoundException, SQLException{
+
+        String username="";
+        username=authenticationService.getCurrentUser(session);
+        List<three> l=new ArrayList<>();
+        List<Map<String,String>> m=new ArrayList<>();
+        
+        List<KeyValuePair> mm=new ArrayList<>();    
+        
+        try{
+            if(username!=null) {
+                credentials=userRepository.getUserByUserName(username);
+                // System.out.println(this.userRepository.findRole(username));
+                // if(this.userRepository.findRole(username).equals("ROLE_ADMIN")) admin="yes";
+
+            }
+            l = this.userRepository.getContacts();
+            
+        }
+        catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }
+
+        model.addAttribute("credentials", credentials);
+        model.addAttribute("l", l);
+
+        return "admincontact";
+    }
+
+    @PostMapping("/view{id}")
+    public String view(@ModelAttribute("user") User credentials, @PathVariable String id, Model model, HttpSession session) throws ClassNotFoundException, SQLException{
+
+        String username="";
+        username=authenticationService.getCurrentUser(session);
+        
+        String s="";
+        
+        try{
+            if(username!=null) {
+                credentials=userRepository.getUserByUserName(username);
+            }
+            s = this.userRepository.getView(Long.parseLong(id));
+            
+        }
+        catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }
+        System.out.println(s);
+        model.addAttribute("credentials", credentials);
+        model.addAttribute("s", s);
+
+        return "adminview";
+    }
+
 }

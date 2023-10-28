@@ -100,6 +100,7 @@
                             <a th:if="${admin!=null}" href="/admin/assignment" class="nav-item nav-link">Assignment</a>
                             <a th:if="${admin!=null}" href="/admin/note" class="nav-item nav-link">Note</a>
                             <a th:if="${admin==null}" href="/contact" class="nav-item nav-link">Contact</a>
+                            <a th:if="${admin!=null}" href="admin/contact" class="nav-item nav-link">Contact</a>
                         </div>
                         <!--<span th:text="${user.email}"></span>-->
                         <a th:if="${credentials.email==null}" class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" href="/login">Sign in</a>

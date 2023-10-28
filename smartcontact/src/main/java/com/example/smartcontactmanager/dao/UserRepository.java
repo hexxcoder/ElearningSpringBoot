@@ -667,6 +667,67 @@ public class UserRepository{
         con.close();
         System.out.println("inserted successfully");
     }
+
+    public List<three> getContacts() throws ClassNotFoundException, SQLException{
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        
+        Connection con=DriverManager.getConnection(url, username, password);
+
+        
+        String sql = "select id, email, subject from contact";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);
+  
+
+        ResultSet resultSet = pstmt.executeQuery();
+        List<three> l=new ArrayList<>();
+        while(resultSet.next()) {
+        
+        Long id = resultSet.getLong("id");
+        String email= resultSet.getString("email");
+        String subject = resultSet.getString("subject");
+
+        three s=new three(Long.toString(id),email,subject);
+        l.add(s);
+        
+        }
+
+        // System.out.println(l);
+
+        return l;
+    }
+
+    public String getView(Long id) throws ClassNotFoundException, SQLException{
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        
+        Connection con=DriverManager.getConnection(url, username, password);
+
+        
+        String sql = "select detail from contact where id=?";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);
+
+        pstmt.setLong(1, id);
+  
+
+        ResultSet resultSet = pstmt.executeQuery();
+        
+        String s="";
+        while(resultSet.next()) {
+        s = resultSet.getString("detail");
+
+        }
+
+        // System.out.println(l);
+
+        return s;
+    }
 }
 
 
