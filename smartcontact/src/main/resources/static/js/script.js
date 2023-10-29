@@ -84,6 +84,7 @@ function openRazorpayCheckout(razorpayKey, subjectId) {
         name: 'E-Courses',
         description: 'Course Payment',
         image: 'https://cdn-icons-png.flaticon.com/512/1019/1019607.png',
+        callback_url: '/enroll'+subjectId,
         prefill: {
             name: userName,
             email: userEmail,
@@ -107,10 +108,10 @@ function openRazorpayCheckout(razorpayKey, subjectId) {
         // alert("Congratulations, payment successful.");
 
         // After successful payment, find the associated form and submit it
-        const form = $('button[data-subject-id="' + subjectId + '"]').closest('form');
-        if (form) {
-            form.submit();
-        }
+        // const form = $('button[data-subject-id="' + subjectId + '"]').closest('form');
+        // if (form) {
+        //     form.submit();
+        // }
     });
 
     rzp.on('payment.failed', function (response) {
@@ -127,3 +128,4 @@ function openRazorpayCheckout(razorpayKey, subjectId) {
 
     rzp.open();
 }
+
