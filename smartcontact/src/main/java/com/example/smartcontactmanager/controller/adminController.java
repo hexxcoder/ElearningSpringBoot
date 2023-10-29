@@ -58,8 +58,8 @@ public class adminController {
         String name=newcourse.getName();
         String desc=newcourse.getDesc();
         Long id=newcourse.getId();
-        
-        Course course=new Course(id,name,desc);
+        Long price=newcourse.getPrice();
+        Course course=new Course(id,name,desc,price);
         courses=null;coursef=null;
         try{
         this.userRepository.addcourse(course);

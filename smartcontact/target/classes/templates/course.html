@@ -215,7 +215,7 @@ function OpenCheckout(amount, contactCounts, razorpayOrderId, description) {
                     <div class="cat-item position-relative overflow-hidden rounded mb-2">
                         <img class="img-fluid" src="img/cat-1.jpg" alt="">
                         <a class="cat-overlay text-white text-decoration-none">
-                            <h4 class="text-white font-weight-medium" th:text="${ent.value}"></h4>
+                            <h4 class="text-white font-weight-medium" th:text="${ent.second}"></h4>
                         </a>
                     </div>
                     <!--<div class="text-center">
@@ -223,11 +223,14 @@ function OpenCheckout(amount, contactCounts, razorpayOrderId, description) {
                             <button class="btn btn-primary py-2 px-4" type="submit" >Enroll</button>
                         </form>
                     </div>-->
-                    <div class="text-center">
+
+                    <div class="text-center">Price: <span th:text="${ent.third}"></span></div>
+                    <div th:if="${admin==null}" class="text-center">
+                        
                         <button class="btn btn-primary py-2 px-4" 
         
         id="payment-button" 
-        th:attr="onclick='openRazorpayCheckout(\'rzp_test_9hNNOxDulFsvlJ\', \'' + ${ent.key} + '\')'">Enroll</button>
+        th:attr="onclick='openRazorpayCheckout(\'rzp_test_9hNNOxDulFsvlJ\', \'' + ${ent.first} + '\', \'' + ${ent.third} + '\')'">Enroll</button>
 
 
                                     </div>
@@ -261,6 +264,10 @@ function OpenCheckout(amount, contactCounts, razorpayOrderId, description) {
                   <label for="inputAddress">Course name</label>
                   <input type="text" class="form-control" name="name" id="name" placeholder="Enter course name" required="required">
               </div>
+              <div class="form-group">
+                <label for="inputAddress5">Price</label>
+                <input type="text" class="form-control" name="price" id="price" placeholder="Enter price" required="required">
+            </div>
               <div class="form-group">
                   <label for="inputAddress2">Description</label>
                   <input type="text" class="form-control" name="desc" id="desc" placeholder="Add description" default="">

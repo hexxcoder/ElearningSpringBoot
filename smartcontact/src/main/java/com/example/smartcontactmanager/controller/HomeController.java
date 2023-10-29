@@ -7,6 +7,7 @@ import com.example.smartcontactmanager.helper.Contact;
 import com.example.smartcontactmanager.helper.KeyValuePair;
 import com.example.smartcontactmanager.helper.Search;
 import com.example.smartcontactmanager.helper.message;
+import com.example.smartcontactmanager.helper.three;
 import com.example.smartcontactmanager.service.AuthenticationService;
 
 import jakarta.servlet.http.HttpSession;
@@ -114,6 +115,7 @@ public class HomeController {
         try{
             // user=userRepository.getUserByUserName(authenticationService.getCurrentUser(session));
             this.userRepository.adduserenroll(authenticationService.getCurrentUser(session),Integer.parseInt(value));
+            this.userRepository.transact(authenticationService.getCurrentUser(session),value);
         }
         catch(ClassNotFoundException | SQLException e){
             enrollerror="You're are not logged in";
@@ -156,6 +158,7 @@ public class HomeController {
             if(this.userRepository.findRole(username).equals("ROLE_ADMIN")) admin="yes";
             l = this.userRepository.getUnenrolledCourse(username,s);
             m = this.userRepository.getEnrolledCourse(username);
+            
         }
         catch(ClassNotFoundException | SQLException e){
             e.printStackTrace();
@@ -186,6 +189,8 @@ public class HomeController {
         model.addAttribute("l", ll);
         model.addAttribute("m", mm);
         model.addAttribute("admin", admin);
+
+        
         
         return "course";
     }
@@ -195,9 +200,9 @@ public class HomeController {
         
    	    String username="";
         username=authenticationService.getCurrentUser(session);
-        List<Map<String,String>> l=new ArrayList<>();
+        List<three> l=new ArrayList<>();
         List<Map<String,String>> m=new ArrayList<>();
-        List<KeyValuePair> ll=new ArrayList<>();
+        
         List<KeyValuePair> mm=new ArrayList<>();    
         String admin=null;
         try{
@@ -207,20 +212,11 @@ public class HomeController {
                 if(this.userRepository.findRole(username).equals("ROLE_ADMIN")) admin="yes";
 
             }
-            l = this.userRepository.getUnenrolledCourse(username,"");
+            l = this.userRepository.getUnenrolledCourses(username,"");
             m = this.userRepository.getEnrolledCourse(username);
         }
         catch(ClassNotFoundException | SQLException e){
             e.printStackTrace();
-        }
-
-        for(Map<String,String> map:l){
-            for(Map.Entry<String,String> entry:map.entrySet()){
-                String s1=entry.getKey();
-                String s2=entry.getValue();
-
-                ll.add(new KeyValuePair(s1, s2));
-            }
         }
 
         for(Map<String,String> map:m){
@@ -233,12 +229,9 @@ public class HomeController {
         }
 
 
-        for(KeyValuePair k:ll){
-            System.out.println("Key: "+k.getKey()+"value: "+k.getValue());
-        }
-
+        
         model.addAttribute("credentials", credentials);
-        model.addAttribute("l", ll);
+        model.addAttribute("l", l);
         model.addAttribute("m", mm);
         model.addAttribute("message", enrollerror);
         model.addAttribute("admin", admin);

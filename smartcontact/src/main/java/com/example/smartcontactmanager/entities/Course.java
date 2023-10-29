@@ -8,10 +8,22 @@ public class Course {
 
     private String description;
 
-    public Course(Long courseID, String courseName, String description) {
+    private Long price;
+
+    public Course(Long courseID, String courseName, String description, Long price) {
         this.courseID = courseID;
         this.courseName = courseName;
         this.description = description;
+        this.price = price;
+    }
+
+    public Long getPrice() {
+        return price;
+
+    }
+
+    public void setPrice(Long score) {
+        this.price = score;
     }
 
     public Long getCourseID() {

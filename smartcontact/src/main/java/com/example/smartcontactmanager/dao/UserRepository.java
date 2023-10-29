@@ -238,6 +238,45 @@ public class UserRepository{
         return l;
     }
 
+    public List<three> getUnenrolledCourses(String email, String s) throws ClassNotFoundException, SQLException{
+
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        // System.out.println("Inside update");
+        Connection con=DriverManager.getConnection(url, username, password);
+
+        
+        String sql = "select courseid, course_name, price from course where course_name like ? and courseid not in (select courseID from studentenroll as s where s.email = ?)";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        
+        pstmt.setString(1,"%"+s+"%");
+        pstmt.setString(2,email);
+  
+
+        ResultSet resultSet = pstmt.executeQuery();
+        List<three> l=new ArrayList<>();
+        while(resultSet.next()) {
+            three course = new three("","","");
+        String courseId = Long.toString(resultSet.getLong("courseid"));
+        // Assuming you have a method to retrieve the course name based on the course ID
+        String courseName = resultSet.getString("course_name");
+        String price= Long.toString(resultSet.getLong("price"));
+
+        course.setFirst(courseId);
+        course.setSecond(courseName);
+        course.setThird(price);
+
+        l.add(course);
+        }
+
+        // System.out.println(l);
+
+        return l;
+    }
+
     public String getCourseName(Long id) throws ClassNotFoundException, SQLException{
 
        Class.forName(sqldriver);
@@ -477,14 +516,15 @@ public class UserRepository{
         Connection con=DriverManager.getConnection(url, username, password);
 
         
-        String sql = "INSERT INTO course (courseid, course_name, description) " +
-                "VALUES (?,?,?)";
+        String sql = "INSERT INTO course (courseid, course_name, price, description) " +
+                "VALUES (?,?,?,?)";
 
         PreparedStatement pstmt=con.prepareStatement(sql);
         
         pstmt.setLong(1,course.getCourseID());
         pstmt.setString( 2, course.getCourseName());
-        pstmt.setString( 3, course.getDescription());
+        pstmt.setLong(3,course.getPrice());
+        pstmt.setString( 4, course.getDescription());
   
 
         pstmt.executeUpdate();
@@ -727,6 +767,61 @@ public class UserRepository{
         // System.out.println(l);
 
         return s;
+    }
+
+    public Long findPrice(Long id) throws ClassNotFoundException, SQLException{
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        
+        Connection con=DriverManager.getConnection(url, username, password);
+
+        
+        String sql = "select price from course where courseid=?";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);
+
+        pstmt.setLong(1, id);
+  
+
+        ResultSet resultSet = pstmt.executeQuery();
+        
+        Long p=(long)0;
+        while(resultSet.next()) {
+        p = resultSet.getLong("price");
+
+        }
+
+        // System.out.println(l);
+
+        return p;
+    }
+
+    public void transact(String email, String cid) throws ClassNotFoundException, SQLException{
+
+        Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        // System.out.println("Inside update");
+        Connection con=DriverManager.getConnection(url, username, password);
+
+
+        String sql = "INSERT INTO transaction(email, courseid, price) " +
+                "VALUES (?,?,?)";
+
+        PreparedStatement pstmt=con.prepareStatement(sql);   
+
+        pstmt.setString(1,email);
+        pstmt.setLong( 2, Long.parseLong(cid));
+        pstmt.setLong(3, findPrice(Long.parseLong(cid)));
+
+        
+        pstmt.executeUpdate();
+
+        con.close();
+        System.out.println("inserted successfully");
     }
 }
 

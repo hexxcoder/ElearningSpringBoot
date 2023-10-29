@@ -71,7 +71,7 @@
 //     });
 // };
 
-function openRazorpayCheckout(razorpayKey, subjectId) {
+function openRazorpayCheckout(razorpayKey, subjectId, price) {
     // Fetch user details from your backend using an appropriate method.
     const userName = "John Doe"; // Replace with the actual user's name.
     const userEmail = "john@example.com"; // Replace with the actual user's email.
@@ -79,7 +79,7 @@ function openRazorpayCheckout(razorpayKey, subjectId) {
 
     const options = {
         key: razorpayKey,
-        amount: 5000, // Amount in paise or the smallest currency unit
+        amount: price*100, // Amount in paise or the smallest currency unit
         currency: 'INR',
         name: 'E-Courses',
         description: 'Course Payment',
