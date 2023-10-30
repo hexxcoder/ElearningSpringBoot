@@ -808,20 +808,30 @@ public class UserRepository{
         Connection con=DriverManager.getConnection(url, username, password);
 
 
-        String sql = "INSERT INTO transaction(email, courseid, price) " +
-                "VALUES (?,?,?)";
+        String sql = "INSERT INTO transaction(id, email, courseid, price) " +
+                "VALUES (?,?,?,?)";
 
         PreparedStatement pstmt=con.prepareStatement(sql);   
 
-        pstmt.setString(1,email);
-        pstmt.setLong( 2, Long.parseLong(cid));
-        pstmt.setLong(3, findPrice(Long.parseLong(cid)));
+        pstmt.setString(1, generateTransactionId());
+        pstmt.setString(2,email);
+        pstmt.setLong( 3, Long.parseLong(cid));
+        pstmt.setLong(4, findPrice(Long.parseLong(cid)));
 
         
         pstmt.executeUpdate();
 
         con.close();
         System.out.println("inserted successfully");
+    }
+
+
+    public static String generateTransactionId() {
+        // Generate a random UUID and remove hyphens
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+
+        // Return the UUID as a transaction ID
+        return uuid;
     }
 
     public List<three> getTransaction(String email) throws ClassNotFoundException, SQLException{
@@ -843,7 +853,7 @@ public class UserRepository{
         List<three> l=new ArrayList<>();
         while(resultSet.next()) {
             three k=new three("","","");
-            k.setFirst(Long.toString(resultSet.getLong("id")));
+            k.setFirst(resultSet.getString("id"));
             k.setSecond(getCourseName(resultSet.getLong("courseid")));
             k.setThird(Long.toString(resultSet.getLong("price")));
 

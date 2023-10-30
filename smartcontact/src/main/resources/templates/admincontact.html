@@ -10066,11 +10066,12 @@ h6,
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav py-0">
-                            <a href="/" class="nav-item nav-link">Home</a>
-                            <a th:href="@{/sub{cid}(cid=${cid})}" class="nav-item nav-link">Assignments</a>
-                            <a th:href="@{/submitted/{cid}(cid=${cid})}" class="nav-item nav-link">Submitted</a>
-                            <a th:href="@{/note{cid}(cid=${cid})}" class="nav-item nav-link">Notes</a>
-                            <a href="/admin/contact" class="nav-item nav-link active">Contact</a>
+                          <a href="/" class="nav-item nav-link">Home</a>
+                          <!--<a href="/about" class="nav-item nav-link">About</a>-->
+                          <a href="/course" class="nav-item nav-link">Courses</a>
+                          <a href="/admin/assignment" class="nav-item nav-link">Assignment</a>
+                          <a href="/admin/note" class="nav-item nav-link">Note</a>
+                          <a href="/admin/contact" class="nav-item nav-link active">Contact</a>
                         </div>
                         <!--<span th:text="${user.email}"></span>-->
                         <a th:if="${credentials.email==null}" class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" href="/login">Sign in</a>
