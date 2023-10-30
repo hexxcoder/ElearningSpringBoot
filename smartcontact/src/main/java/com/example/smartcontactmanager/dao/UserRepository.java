@@ -212,7 +212,7 @@ public class UserRepository{
         // System.out.println("Inside update");
         Connection con=DriverManager.getConnection(url, username, password);
 
-        
+        System.out.println(s);
         String sql = "select courseid from course where course_name like ? and courseid not in (select courseID from studentenroll as s where s.email = ?)";
 
         PreparedStatement pstmt=con.prepareStatement(sql);
@@ -822,6 +822,36 @@ public class UserRepository{
 
         con.close();
         System.out.println("inserted successfully");
+    }
+
+    public List<three> getTransaction(String email) throws ClassNotFoundException, SQLException{
+
+       Class.forName(sqldriver);
+        String url=urlname;
+        String username=userid;
+        String password=pass;
+        // System.out.println("Inside update");
+        // Connection con=DriverManager.getConnection(url, username, password);
+
+        String s="";
+        try (Connection con = DriverManager.getConnection(url, username, password)) {
+        String sql = "SELECT id, courseid, price FROM transaction WHERE email = ?";
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        pstmt.setString(1, email);
+        
+        ResultSet resultSet = pstmt.executeQuery();
+        List<three> l=new ArrayList<>();
+        while(resultSet.next()) {
+            three k=new three("","","");
+            k.setFirst(Long.toString(resultSet.getLong("id")));
+            k.setSecond(getCourseName(resultSet.getLong("courseid")));
+            k.setThird(Long.toString(resultSet.getLong("price")));
+
+            l.add(k);
+        }
+        return l;
+    }
+        
     }
 }
 

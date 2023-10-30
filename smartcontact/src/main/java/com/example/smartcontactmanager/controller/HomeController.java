@@ -12,6 +12,7 @@ import com.example.smartcontactmanager.service.AuthenticationService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import kotlin.coroutines.ContinuationInterceptor.Key;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -145,10 +146,10 @@ public class HomeController {
     @PostMapping("/course")
     public String postCourse(@ModelAttribute("user") User credentials, @ModelAttribute("search") Search search, Model model, HttpSession session){
         String s=search.getFind();
-
+        
         String username="";
         username=authenticationService.getCurrentUser(session);
-        List<Map<String,String>> l=new ArrayList<>();
+        List<three> l=new ArrayList<>();
         List<Map<String,String>> m=new ArrayList<>();
         List<KeyValuePair> ll=new ArrayList<>();
         List<KeyValuePair> mm=new ArrayList<>();
@@ -156,7 +157,7 @@ public class HomeController {
         try{
             if(username!=null) credentials=userRepository.getUserByUserName(username);
             if(this.userRepository.findRole(username).equals("ROLE_ADMIN")) admin="yes";
-            l = this.userRepository.getUnenrolledCourse(username,s);
+            l = this.userRepository.getUnenrolledCourses(username,s);
             m = this.userRepository.getEnrolledCourse(username);
             
         }
@@ -164,14 +165,6 @@ public class HomeController {
             e.printStackTrace();
         }
 
-        for(Map<String,String> map:l){
-            for(Map.Entry<String,String> entry:map.entrySet()){
-                String s1=entry.getKey();
-                String s2=entry.getValue();
-
-                ll.add(new KeyValuePair(s1, s2));
-            }
-        }
 
         for(Map<String,String> map:m){
             for(Map.Entry<String,String> entry:map.entrySet()){
@@ -183,10 +176,13 @@ public class HomeController {
         }
 
 
-        // for(Map<String,String)
+        System.out.println("Here");
+        for(KeyValuePair k:ll){
+            System.out.println("Key:"+k.getKey()+"value: "+k.getValue());
+                }        
 
         model.addAttribute("credentials", credentials);
-        model.addAttribute("l", ll);
+        model.addAttribute("l", l);
         model.addAttribute("m", mm);
         model.addAttribute("admin", admin);
 
@@ -450,6 +446,32 @@ public class HomeController {
         }
 
         return "redirect:/contact";
+    }
+
+    @GetMapping("/transact")
+    public String transact(@ModelAttribute("user") User credentials, Model model, HttpSession session){
+
+        String username="";
+        username=authenticationService.getCurrentUser(session);
+        List<three> l=new ArrayList<>();
+        try{
+            if(username!=null) {
+                credentials=userRepository.getUserByUserName(username);
+            }
+
+            l=this.userRepository.getTransaction(username);
+            
+        }
+        catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }
+
+
+
+        model.addAttribute("credentials", credentials);      
+        model.addAttribute("l", l);
+        return "transact";
+
     }
 }
 
