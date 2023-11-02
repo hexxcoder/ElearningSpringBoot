@@ -52,9 +52,9 @@ public class UserRepository{
     }
 
     String sqldriver="com.mysql.cj.jdbc.Driver";
-    String urlname="jdbc:mysql://localhost:3306/newelearning?serverTimezone=UTC";
-    String userid="root";
-    String pass="password";
+    String urlname="jdbc:mysql://sql12.freesqldatabase.com:3306/sql12658674?serverTimezone=UTC";
+    String userid="sql12658674";
+    String pass="atafeKQ5jq";
 
     public void update(User user) throws ClassNotFoundException, SQLException{
 
